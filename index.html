@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -42,14 +41,16 @@
 
     <div id="fragment">
         <h2>Fragment 1 – Zugriff gewährt</h2>
-        <p>Archivzugriff bestätigt.<br>Willkommen zurück, Agentin DOC.</p>
-        <p>Weitere Hinweise folgen über das Protokoll.</p>
+        <p>Willkommen zurück, Chirurgin.<br>Wir haben auf Sie gewartet.</p>
+        <p>Das Mnemosyne-Protokoll wird geladen...</p>
+        <p>Fragment 1 erfolgreich dekodiert.<br>Weitere Archiveinheiten werden vorbereitet.</p>
+        <p>Bleiben Sie in Bereitschaft.<br>Die nächste Übertragung erfolgt in Kürze.</p>
     </div>
 
     <script>
         function checkPassword() {
             const input = document.getElementById("codeInput").value;
-            if (input.trim().toLowerCase() === "testzugang") {
+            if (input.trim().toLowerCase() === "thesurgeon") {
                 document.getElementById("fragment").style.display = "block";
             } else {
                 alert("Zugriff verweigert. Falscher Codename.");
