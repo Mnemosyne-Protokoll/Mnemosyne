@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <title>Countdown fixer Zeitpunkt</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ffcc;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 2em;
+        }
+        #countdown {
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+        #chatButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #222;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown läuft</h1>
+    <div id="countdown"></div>
+    <button id="chatButton" onclick="openChat()">Chat starten</button>
+
+    <script>
+        function startCountdown() {
+            const countdownElem = document.getElementById("countdown");
+            const chatBtn = document.getElementById("chatButton");
+
+            const targetDate = new Date("2025-05-17T17:45:00Z").getTime();
+            const now = new Date().getTime();
+
+            if (now >= targetDate) {
+                countdownElem.innerHTML = "⏰ Zeit abgelaufen";
+                chatBtn.style.display = "inline-block";
+                return;
+            }
+
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance <= 0) {
+                    clearInterval(interval);
+                    countdownElem.innerHTML = "⏰ Zeit abgelaufen";
+                    chatBtn.style.display = "inline-block";
+                    return;
+                }
+
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                countdownElem.innerHTML = `⏳ ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+
+        function openChat() {
+            if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.maximize === 'function') {
+                Tawk_API.maximize();
+            } else {
+                alert("Chat ist derzeit nicht verfügbar.");
+            }
+        }
+
+        window.onload = startCountdown;
+    </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/682846116392a3190c77db29/1irel3dba';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+</body>
+</html>
