@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Fall 237 – Zugriffspunkt</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ffcc;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        #fragment {
+            display: none;
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 1em;
+            margin-top: 10px;
+            background-color: #222;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+        }
+        input:focus {
+            outline: none;
+            border-color: #00ffee;
+        }
+    </style>
+</head>
+<body>
+    <h1>FALL 237</h1>
+    <p>MNEMOSYNE-PROTOKOLL<br>Zugriff nur mit autorisiertem Codename</p>
+    <input type="text" id="codeInput" placeholder="Codename eingeben">
+    <button onclick="checkPassword()">Zugriff prüfen</button>
+
+    <div id="fragment">
+        <h2>Fragment 1 – Zugriff gewährt</h2>
+        <p>Archivzugriff bestätigt.<br>Willkommen zurück, Agentin DOC.</p>
+        <p>Weitere Hinweise folgen über das Protokoll.</p>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const input = document.getElementById("codeInput").value;
+            if (input.trim().toLowerCase() === "testzugang") {
+                document.getElementById("fragment").style.display = "block";
+            } else {
+                alert("Zugriff verweigert. Falscher Codename.");
+            }
+        }
+    </script>
+</body>
+</html>
