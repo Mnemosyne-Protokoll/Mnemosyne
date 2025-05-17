@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8" />
-    <title>Countdown mit Chat-Button</title>
+    <title>Countdown fixer Zeitpunkt</title>
     <style>
         body {
             background-color: black;
@@ -42,21 +42,22 @@
             const countdownElem = document.getElementById("countdown");
             const chatBtn = document.getElementById("chatButton");
 
-            // Setze Zielzeit heute 17:45 UTC
-            const targetDate = new Date();
-            targetDate.setUTCHours(17, 45, 0, 0);
+            // Festes Datum + Uhrzeit in UTC einstellen:
+            const targetDate = new Date("2025-05-17T17:45:00Z").getTime();
 
-            // Verhindere, dass der Countdown zurückspringt,
-            // indem wir checken, ob die Zielzeit bereits vergangen ist
-            if (new Date().getTime() >= targetDate.getTime()) {
+            const now = new Date().getTime();
+
+            if (now >= targetDate) {
+                // Zeitpunkt überschritten: sofort Button zeigen
                 countdownElem.innerHTML = "⏰ Zeit abgelaufen";
                 chatBtn.style.display = "inline-block";
                 return;
             }
 
+            // Countdown nur starten, wenn Zeitpunkt in Zukunft
             const interval = setInterval(() => {
                 const now = new Date().getTime();
-                const distance = targetDate.getTime() - now;
+                const distance = targetDate - now;
 
                 if (distance <= 0) {
                     clearInterval(interval);
