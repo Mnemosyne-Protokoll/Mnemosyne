@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>Countdown-Test – Fixer Zeitpunkt</title>
+    <meta charset="UTF-8" />
+    <title>Countdown mit Chat-Button</title>
     <style>
         body {
             background-color: black;
@@ -17,50 +16,58 @@
             text-align: center;
             padding: 2em;
         }
-        #countdown, #chatTrigger {
+        #countdown {
             margin-top: 30px;
+            font-size: 1.5em;
         }
-        #chatTrigger {
+        #chatButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #222;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            cursor: pointer;
             display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Test: Countdown (UTC gebunden)</h1>
-    <p>Countdown läuft bis 17.05.2025 – 17:35 UTC</p>
+    <h1>Countdown läuft</h1>
     <div id="countdown"></div>
-    <div id="chatTrigger">
-        <h2>🧠 Kommunikation aktiviert</h2>
-        <p>Der Kommunikationskanal wurde freigegeben.</p>
-    </div>
+    <button id="chatButton" onclick="openChat()">Chat starten</button>
 
     <script>
-        let openChat = false;
-
-        const countdownElem = document.getElementById("countdown");
-        const chatTrigger = document.getElementById("chatTrigger");
-        const targetDate = new Date("2025-05-17T17:35:00Z").getTime();
-
         function startCountdown() {
-            const interval = setInterval(function() {
+            const countdownElem = document.getElementById("countdown");
+            const chatBtn = document.getElementById("chatButton");
+            // Zielzeit heute 17:45 UTC (bitte anpassen, falls lokale Zeit gewünscht)
+            const targetDate = new Date();
+            targetDate.setUTCHours(17, 45, 0, 0);
+
+            const interval = setInterval(() => {
                 const now = new Date().getTime();
-                const distance = targetDate - now;
+                const distance = targetDate.getTime() - now;
 
                 if (distance <= 0) {
                     clearInterval(interval);
-                    countdownElem.style.display = "none";
-                    chatTrigger.style.display = "block";
-                    openChat = true;
-                    if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.maximize === 'function') {
-                        Tawk_API.maximize();
-                    }
+                    countdownElem.innerHTML = "⏰ Zeit abgelaufen";
+                    chatBtn.style.display = "inline-block";
                     return;
                 }
 
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                countdownElem.innerHTML = "⏳ " + minutes + "m " + seconds + "s";
+                countdownElem.innerHTML = `⏳ ${minutes}m ${seconds}s`;
             }, 1000);
+        }
+
+        function openChat() {
+            if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.maximize === 'function') {
+                Tawk_API.maximize();
+            } else {
+                alert("Chat ist derzeit nicht verfügbar.");
+            }
         }
 
         window.onload = startCountdown;
@@ -68,22 +75,15 @@
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    Tawk_API.onLoad = function() {
-        if (typeof openChat !== 'undefined' && openChat === true) {
-            setTimeout(function() {
-                Tawk_API.maximize();
-            }, 500);
-        }
-    };
-    (function() {
-        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-        s1.async = true;
-        s1.src = 'https://embed.tawk.to/682846116392a3190c77db29/1irel3dba';
-        s1.charset = 'UTF-8';
-        s1.setAttribute('crossorigin', '*');
-        s0.parentNode.insertBefore(s1, s0);
-    })();
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/682846116392a3190c77db29/1irel3dba';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
 </body>
 </html>
