@@ -41,9 +41,18 @@
         function startCountdown() {
             const countdownElem = document.getElementById("countdown");
             const chatBtn = document.getElementById("chatButton");
-            // Zielzeit heute 17:45 UTC (bitte anpassen, falls lokale Zeit gewünscht)
+
+            // Setze Zielzeit heute 17:45 UTC
             const targetDate = new Date();
             targetDate.setUTCHours(17, 45, 0, 0);
+
+            // Verhindere, dass der Countdown zurückspringt,
+            // indem wir checken, ob die Zielzeit bereits vergangen ist
+            if (new Date().getTime() >= targetDate.getTime()) {
+                countdownElem.innerHTML = "⏰ Zeit abgelaufen";
+                chatBtn.style.display = "inline-block";
+                return;
+            }
 
             const interval = setInterval(() => {
                 const now = new Date().getTime();
