@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -12,12 +13,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             text-align: center;
+            padding: 2em;
         }
-        #fragment {
-            display: none;
+        #fragment, #countdown {
             margin-top: 20px;
+        }
+        #fragment2 {
+            display: none;
+            margin-top: 30px;
         }
         input, button {
             padding: 10px;
@@ -45,6 +50,16 @@
         <p>Das Mnemosyne-Protokoll wird geladen...</p>
         <p>Fragment 1 erfolgreich dekodiert.<br>Weitere Archiveinheiten werden vorbereitet.</p>
         <p>Bleiben Sie in Bereitschaft.<br>Die nächste Übertragung erfolgt in Kürze.</p>
+        <div id="countdown"></div>
+        <div id="fragment2">
+            <h2>Fragment 2 – Kommunikationsanfrage</h2>
+            <p>Instanz 2 des Mnemosyne-Protokolls erfolgreich geladen.</p>
+            <p>Die nächsten Archivfreigaben sind verschlüsselt.</p>
+            <p>Ein Zugriff ist nur möglich, wenn eine Verbindung zur <em>übergeordneten Kontrollinstanz</em> hergestellt wird.</p>
+            <p><strong>⚠️ Automatische Weitergabe nicht verfügbar.</strong><br>Authentifizierung durch aktiven Austausch erforderlich.</p>
+            <p>🧠 Verbindung mit der <strong>Quelle</strong> einleiten?</p>
+            <button disabled>Kommunikationskanal wird vorbereitet…</button>
+        </div>
     </div>
 
     <script>
@@ -52,10 +67,50 @@
             const input = document.getElementById("codeInput").value;
             if (input.trim().toLowerCase() === "thesurgeon") {
                 document.getElementById("fragment").style.display = "block";
+                startCountdown();
             } else {
                 alert("Zugriff verweigert. Falscher Codename.");
             }
         }
+
+        function startCountdown() {
+            const countdownElem = document.getElementById("countdown");
+            const fragment2 = document.getElementById("fragment2");
+            const targetDate = new Date("2025-08-25T19:00:00").getTime();
+
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance <= 0) {
+                    clearInterval(interval);
+                    countdownElem.style.display = "none";
+                    fragment2.style.display = "block";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElem.innerHTML = `🕒 Nächster Zugriff in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
     </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/682846116392a3190c77db29/1irel3dba';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>
