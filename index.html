@@ -3,7 +3,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Fall 237 – Zugriffspunkt</title>
+    <title>Countdown-Test – Chatfreigabe</title>
     <style>
         body {
             background-color: black;
@@ -13,107 +13,63 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
             text-align: center;
             padding: 2em;
         }
-        #fragment, #countdown, #fragment2 {
+        #countdown, #chatTrigger {
+            margin-top: 30px;
+        }
+        #chatTrigger {
             display: none;
-            margin-top: 20px;
-        }
-        input, button {
-            padding: 10px;
-            font-size: 1em;
-            margin-top: 10px;
-            background-color: #222;
-            color: #00ffcc;
-            border: 1px solid #00ffcc;
-        }
-        input:focus {
-            outline: none;
-            border-color: #00ffee;
         }
     </style>
 </head>
 <body>
-    <h1>FALL 237</h1>
-    <p>MNEMOSYNE-PROTOKOLL<br>Zugriff nur mit autorisiertem Codename</p>
-    <input type="text" id="codeInput" placeholder="Codename eingeben">
-    <button onclick="checkPassword()">Zugriff prüfen</button>
-
-    <div id="fragment">
-        <h2>Fragment 1 – Zugriff gewährt</h2>
-        <p>Willkommen zurück, Chirurgin.<br>Wir haben auf Sie gewartet.</p>
-        <p>Das Mnemosyne-Protokoll wird geladen...</p>
-        <p>Fragment 1 erfolgreich dekodiert.<br>Weitere Archiveinheiten werden vorbereitet.</p>
-        <p>Bleiben Sie in Bereitschaft.<br>Die nächste Übertragung erfolgt in Kürze.</p>
-        <div id="countdown"></div>
-        <div id="fragment2">
-            <h2>Fragment 2 – Kommunikationsanfrage</h2>
-            <p>Instanz 2 des Mnemosyne-Protokolls erfolgreich geladen.</p>
-            <p>Die nächsten Archivfreigaben sind verschlüsselt.</p>
-            <p>Ein Zugriff ist nur möglich, wenn eine Verbindung zur <em>übergeordneten Kontrollinstanz</em> hergestellt wird.</p>
-            <p><strong>⚠️ Automatische Weitergabe nicht verfügbar.</strong><br>Authentifizierung durch aktiven Austausch erforderlich.</p>
-            <p>🧠 Verbindung mit der <strong>Quelle</strong> einleiten?</p>
-            <button disabled>Kommunikationskanal wird vorbereitet…</button>
-        </div>
+    <h1>Test: Countdown zur Chatfreigabe</h1>
+    <p>Countdown läuft bis 17.05.2025 – 11:05 UTC</p>
+    <div id="countdown"></div>
+    <div id="chatTrigger">
+        <h2>🧠 Kommunikation aktiviert</h2>
+        <p>Der Kommunikationskanal wurde freigegeben.</p>
     </div>
 
     <script>
-        function checkPassword() {
-            const input = document.getElementById("codeInput").value;
-            if (input.trim().toLowerCase() === "thesurgeon") {
-                document.getElementById("fragment").style.display = "block";
-                startCountdown();
-            } else {
-                alert("Zugriff verweigert. Falscher Codename.");
-            }
-        }
+        const countdownElem = document.getElementById("countdown");
+        const chatTrigger = document.getElementById("chatTrigger");
+        const targetDate = new Date("2025-05-17T11:05:00Z").getTime();
 
-        function startCountdown() {
-            const countdownElem = document.getElementById("countdown");
-            const fragment2 = document.getElementById("fragment2");
-            const targetDate = new Date("2025-08-25T19:00:00").getTime();
+        const interval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
 
-            countdownElem.style.display = "block";
-
-            const interval = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-
-                if (distance <= 0) {
-                    clearInterval(interval);
-                    countdownElem.style.display = "none";
-                    fragment2.style.display = "block";
-                    return;
+            if (distance <= 0) {
+                clearInterval(interval);
+                countdownElem.style.display = "none";
+                chatTrigger.style.display = "block";
+                if (typeof Tawk_API !== 'undefined') {
+                    Tawk_API.maximize(); // Opens the chat
                 }
+                return;
+            }
 
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownElem.innerHTML = `🕒 Nächster Zugriff in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }, 1000);
-        }
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            countdownElem.innerHTML = "⏳ " + minutes + "m " + seconds + "s";
+        }, 1000);
     </script>
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/682846116392a3190c77db29/1irel3dba';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function() {
+        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/682846116392a3190c77db29/1irel3dba';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
     })();
-    Tawk_API = Tawk_API || {};
-    Tawk_API.onLoad = function() {
-        Tawk_API.minimize(); // verhindert automatisches Öffnen
-    };
     </script>
-    <!--End of Tawk.to Script-->
 </body>
 </html>
